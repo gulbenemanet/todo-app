@@ -1,0 +1,144 @@
+.home-layout {
+    min-height: 100vh;
+    display: flex;
+}
+
+.content {
+    padding: 20px;
+}
+
+.right_side {
+    background: #808080;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.button {
+    font-size: 24px;
+    margin-top: 40px;
+    margin-right: 5px;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
+
+.modal {
+    background: #808080;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+}
+
+.title {
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    background: transparent;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+.title-line {
+    width: 99%;
+    height: 2px;
+    background: black;
+    margin-bottom: 15px;
+}
+
+.content {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+
+.main {
+    flex: 1;
+    padding: 20px;
+    background: white;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    width: 50%;
+    border-radius: 5px;
+}
+
+.add-input {
+    width: 100%;
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+}
+
+.todo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 8px solid #ddd;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.todo-item input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+  }
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+
+.todo-text {
+    flex-grow: 1;
+    min-width: 0;
+}
+.todo-text strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  
+  .todo-text p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  /* İkonları sağa yasla ve ortala */
+  .actions {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+    margin-left: auto; /* Sağa yaslar */
+    align-items: center;
+  }
+.edit-icon,
+.delete-icon {
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
