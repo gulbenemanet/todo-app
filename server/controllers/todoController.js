@@ -1,5 +1,7 @@
 const Todo = require('../models/Todo')
 const jwt = require('jsonwebtoken')
+require('dotenv').config();
+const path = require("path")
 
 // const OpenAI = require('openai')
 const {
@@ -69,15 +71,18 @@ const addTodo = async (req, res) => {
 
     } else {
         try {
-            // console.log(req.body)
+            // console.log(req.file)
             const result = await getCompletion(req.body.content)
             // console.log(result)
+
+            const filePath = req.file ? req.file.path : null
 
             const todo = Todo.create({
                 title: req.body.title,
                 content: req.body.content,
                 recommendation: result,
-                user_id: req.user._id
+                user_id: req.user._id,
+                file: filePath
             })
                 .then((todo) => {
                     res.status(200).json({
@@ -113,7 +118,7 @@ const deleteTodo = async (req, res) => {
 
     } else {
         try {
-            console.log(req.body)
+            // console.log(req.body)
             Todo.findByIdAndDelete({ _id: req.body.id })
                 .then((todo) => {
                     res.status(200).json({
@@ -189,7 +194,7 @@ const statusTodo = async (req, res) => {
 
     } else {
         try {
-            console.log("deeeee" + req.body.id + "req. conten" + req.body.status)
+            // console.log("deeeee" + req.body.id + "req. conten" + req.body.status)
             Todo.findByIdAndUpdate(req.body.id, { status: req.body.status }, { new: true }) //güncellenmiş versiyon fönfürmesi için
                 .then((todo) => {
                     res.status(200).json({
@@ -243,11 +248,50 @@ const searchTodos = async (req, res) => {
 
 }
 
+const download = async (req, res) => {
+    try {
+        // console.log("geldiiiii")
+        const fileName = req.params.fileName
+        const id = req.user._id
+
+        // console.log(fileName)
+
+        const todo = await Todo.findOne({
+            user_id: id,
+            file: fileName
+        })
+            .then(sonuc => {
+                res.download(fileName, (err) => {
+                    if (err) {
+                        res.status(404).json({
+                            "success": false,
+                            "code": 400,
+                            "message": "Bulunamadı." + err,
+                        })
+                    }
+                });
+            })
+            .catch((err) => {
+                res.status(404).json({
+                    "success": false,
+                    "code": 400,
+                    "message": "Bulunamadı." + err,
+                })
+
+            })
+
+
+    } catch (error) {
+
+    }
+}
+
 module.exports = {
     getAllTodos,
     addTodo,
     deleteTodo,
     updateTodo,
     statusTodo,
-    searchTodos
+    searchTodos,
+    download
 }

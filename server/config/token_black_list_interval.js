@@ -1,4 +1,4 @@
-const Token = require('../models/token_model')
+const Token = require('../models/Token')
 
 async function MyTimer(result) {
     for (let j = 0; j < result.length; j++) {

@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const Token = require('../models/Token')
 
 const getAllUsers = (req, res) => {
     User.find()
@@ -9,7 +10,7 @@ const getAllUsers = (req, res) => {
 
 const signUp = async (req, res) => {
     if (req.err) {
-        console.log(req.err);
+        // console.log(req.err);
         if (req.err.details[0].type == 'any.required') {
             res.status(req.err.statusCode).json({
                 success: false,
@@ -80,7 +81,7 @@ const signIn = async (req, res) => {
                     if (error) {
                         res.json(error)
                     } else if (!result) {
-                        es.status(404).json({
+                        res.status(404).json({
                             "success": false,
                             "code": 404,
                             "message": "Verilen password bilgileri hatalıdır.",
@@ -112,11 +113,26 @@ const me = (req, res) => {
     res.json(req.user)
 }
 
-// const logOut = (req, res) => {
-//     req.logout();
-//     res.redirect('/')
-//         //res.json(req.user)
-// }
+const logOut = async (req, res) => {
+    const headersToken = await req.headers['authorization'].split(' ')[1];    
+    const token = Token.create({
+        token: headersToken
+    })
+        .then((docs) => {
+            // console.log(docs);
+            res.status(200).json({
+                "success": true,
+                "code": 200,
+                "message": "Çıkış işlemi başarıyla yapıldı."
+            })
+
+        })
+        .catch((err) => {
+            if (err) {
+                res.json(err)
+            }
+        })
+}
 
 const errorG = (req, res) => {
     res.json('Hata :(')
@@ -127,5 +143,6 @@ module.exports = {
     signUp,
     signIn,
     me,
-    errorG
+    errorG,
+    logOut
 }

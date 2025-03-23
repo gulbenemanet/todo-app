@@ -37,8 +37,7 @@ const Login = () => {
                 <div className="text_area">
                     <label htmlFor="username" className="form-label">Kullanıcı Adı:</label>
                     <input type="text" className="text-input" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} required/>
-                </div>
-                <div className="text_area">
+                   <br/> 
                     <label htmlFor="password" className="form-label">Şifre :</label>
                     <input type="password" className="text-input" id="password" name='password' value={password} onChange={(e) => setPassword(e.target.value)} required />
                 </div>

@@ -22,6 +22,10 @@ const TodoSchema = new schema({
     user_id: {
         type: String,
         required: true
+    },
+    file: {
+        type: String,
+        default: ""
     }
 })
 
