@@ -19,6 +19,7 @@ router.post('/addTodo', auth, todoController.addTodo)
 router.delete('/deleteTodo', todoController.deleteTodo)
 router.put('/updateTodo', todoController.updateTodo)
 router.put('/statusTodo', todoController.statusTodo)
+router.get('/search/:aranacak', auth, todoController.searchTodos)
 
 
 // delete ve puttaki req.body.id yani görevin id si güncellenmesi gerek

@@ -7,6 +7,7 @@ import "./home.css"
 
 const { Content, Sider } = Layout;
 const Home = () => {
+    const [searchTerm, setSearchTerm] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -50,6 +51,32 @@ const Home = () => {
         }
         getAllTodos();
     }, [])
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const url = searchTerm 
+                    ? `http://localhost:5000/search/${encodeURIComponent(searchTerm)}`
+                    : "http://localhost:5000/allTodos";
+                
+                const res = await fetch(url, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+    
+                if (res.ok) {
+                    const data = await res.json();
+                    setTodos(data);
+                } else {
+                    message.error("Arama yapılamadı.");
+                }
+            } catch (error) {
+                message.error("İstek gönderilemedi.");
+            }
+        };
+        fetchData();
+    }, [searchTerm]);
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [id, setId] = useState("")
@@ -124,6 +151,7 @@ const Home = () => {
                 setTodos(todos.map(todo => 
                     todo._id === formData.id ? { ...todo, ...formData } : todo
                 ))
+                window.location.reload();
                 handleCancel();
 
             } else {
@@ -169,7 +197,6 @@ const Home = () => {
                         <Input placeholder="Başlık" className="title" name="title" id="title" value={title} onChange={(e) => setTitle(e.target.value)} ></Input>
                         <div className="title-line"></div>
                         <Input placeholder="Eklemek istediğiniz görevi girin..." name="content" id="content" className="add-input" value={content} onChange={(e) => setContent(e.target.value)}></Input>
-                        <p> Lorem ipsum  </p>
                         <div></div>
                     </div>
                 </Modal>
@@ -177,7 +204,7 @@ const Home = () => {
             <Layout className="main">
                 <Content className="content">
                     <div className="search">
-                        <Input placeholder="Ara.." prefix={<LuSearch />} suffix={<MdOutlineCancel />} className="search-input" />
+                        <Input placeholder="Ara.." prefix={<LuSearch />} suffix={<MdOutlineCancel onClick={() => setSearchTerm('')} />}  value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="search-input" />
                     </div>
                     <div className="todo-list">
                         {todos.map((todo) => (
